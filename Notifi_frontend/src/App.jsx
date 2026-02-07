@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "./Components/Header";
 import "./App.css";
+import { enableNotifications } from "./enable";
 
 function App() {
   const [data, setData] = useState(null);
@@ -12,23 +13,12 @@ function App() {
     const connect = () => {
       ws = new WebSocket("ws://localhost:8000/ws");
 
-      ws.onopen = () => {
-        console.log("WebSocket connected");
-      };
-
       ws.onmessage = (event) => {
-        const parsed = JSON.parse(event.data);
-        setData(parsed);
-      };
-
-      ws.onerror = (err) => {
-        console.error("WebSocket error", err);
-        ws.close();
+        setData(JSON.parse(event.data));
       };
 
       ws.onclose = () => {
-        console.log("WebSocket closed. Reconnecting...");
-        reconnectTimer = setTimeout(connect, 1000); // retry after 1s
+        reconnectTimer = setTimeout(connect, 1000);
       };
     };
 
@@ -43,6 +33,12 @@ function App() {
   return (
     <div className="Container">
       <Header />
+
+      {/* ✅ REQUIRED BUTTON */}
+      <button onClick={enableNotifications}>
+        Enable Notifications
+      </button>
+
       <main className="Mainpage">
         {data ? (
           <div className="cls">
