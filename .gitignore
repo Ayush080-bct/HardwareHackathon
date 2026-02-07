@@ -27,3 +27,4 @@ dist-ssr
 *.sw?
 
 # enviroment
+backend/api/serviceAccountKey.json
