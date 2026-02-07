@@ -1,3 +1,6 @@
+.vscode/
+Myenv/
+_pycache_/
 # Logs
 logs
 *.log
